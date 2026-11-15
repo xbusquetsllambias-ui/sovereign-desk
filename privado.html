@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Sovereign · Privado</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#0A0F1E;--cd:#111833;--ln:#1D2850;--ink:#E4E9F5;--mut:#8D9AB8;--ac:#8FA8FF;--gd:#C9A24B;--up:#3DDC97;--dn:#FF7A7A;--sf:"Newsreader",Georgia,serif;--fb:"IBM Plex Sans",system-ui,sans-serif;--fm:"IBM Plex Mono",ui-monospace,monospace;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.w{max-width:640px;margin:0 auto}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid #1A2440;padding-top:env(safe-area-inset-top,0px)}
+header .w{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+.lg{display:flex;align-items:center;gap:10px;font:500 15px var(--fm);letter-spacing:.18em}
+.ic{width:28px;height:28px;border:1.5px solid var(--gd);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gd);font-size:13px}
+.lang{display:flex;border:1px solid var(--ln);border-radius:99px;overflow:hidden}
+.lang button{background:none;border:0;color:var(--mut);font:12px var(--fm);padding:4px 10px;cursor:pointer}
+.lang button.on{background:var(--gd);color:#14110A}
+main{padding:0 16px}
+.ey{font:11px var(--fm);letter-spacing:.16em;color:var(--gd);text-transform:uppercase;margin:22px 0 6px}
+h1,h2,h3{font-family:var(--sf);font-weight:500;margin:0}h1{font-size:30px;line-height:1.1}h2{font-size:22px;line-height:1.2}h3{font-size:18px}
+.mut{color:var(--mut);font-size:14px}.sm{font-size:12.5px}
+.cd{background:var(--cd);border:1px solid var(--ln);border-radius:10px;padding:16px;margin-top:12px;min-width:0}
+.err{background:#3A1A22;border:1px solid var(--dn);border-radius:8px;padding:11px 14px;margin-top:14px;font-size:14px}
+.m{font-family:var(--fm);font-variant-numeric:tabular-nums}
+.k{font:10.5px var(--fm);letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.code{font:500 13px var(--fm);color:var(--gd);letter-spacing:.06em}
+.tk{font:600 20px var(--fb);letter-spacing:.02em}
+.nm{color:var(--mut);font-size:13.5px;overflow-wrap:anywhere}
+.cv{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:3px 10px;font:500 12px var(--fb);white-space:nowrap}.cv.c5{background:var(--gd);color:#14110A}.cv.c4{border:1px solid var(--gd);color:var(--gd)}
+.badge.r{border-color:var(--gd);color:var(--gd)}
+.badge{display:inline-block;border:1px solid var(--ln);border-radius:99px;padding:1px 9px;font:11.5px var(--fm);color:var(--mut);white-space:nowrap}
+.badge.o{border-color:var(--up);color:var(--up)}.badge.c{border-color:var(--mut)}
+.dates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px;border-top:1px solid var(--ln);padding-top:10px}
+.dates .v{font:13.5px var(--fm);margin-top:2px}
+ul.cn{list-style:none;margin:10px 0 0;padding:0}ul.cn li{display:flex;gap:8px;font-size:13.5px;padding:3px 0}
+ul.cn b{font:500 12px var(--fm);min-width:26px;text-align:right}.pl{color:var(--up)}.mi{color:var(--dn)}.ze{color:var(--mut)}
+.buy{font-size:14px;margin-top:10px}
+.lnk{background:none;border:0;color:var(--ac);font:14px var(--fb);padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+a{color:var(--ac)}
+details.flt{margin-top:14px;background:var(--cd);border:1px solid var(--ln);border-radius:10px}
+details.flt summary{padding:11px 14px;cursor:pointer;font-size:14px;list-style:none;display:flex;justify-content:space-between}
+details.flt summary::-webkit-details-marker{display:none}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px 14px}
+.fg label{display:flex;flex-direction:column;gap:4px;font:10.5px var(--fm);letter-spacing:.1em;color:var(--mut);text-transform:uppercase;min-width:0}
+.fg .full{grid-column:1/-1}
+input,select{background:#0D1430;border:1px solid var(--ln);border-radius:7px;color:var(--ink);font:16px var(--fb);padding:8px 10px;width:100%;min-width:0}
+input[type=date]{font-size:15px;-webkit-appearance:none;min-height:40px}
+.fb{display:flex;gap:10px;grid-column:1/-1}
+.btn{background:var(--gd);color:#14110A;border:0;border-radius:7px;padding:9px 14px;font:500 14px var(--fb);cursor:pointer}
+.btn.g{background:none;border:1px solid var(--ln);color:var(--ink)}
+.nw .sum{margin-top:8px;font-size:14px;white-space:pre-wrap}
+.nw details summary{cursor:pointer;color:var(--ac);font-size:14px;margin-top:8px}
+.cnt{margin-top:12px;color:var(--mut);font-size:13px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:#0D1430;border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .w{display:flex;max-width:640px}
+.bar button{flex:1;background:none;border:0;border-top:2px solid transparent;color:var(--mut);font:11px var(--fb);padding:9px 0 11px;cursor:pointer;min-width:0}
+.bar button.on{color:var(--ac);border-top-color:var(--ac)}
+.bar svg{display:block;margin:0 auto 3px}
+.mt p{margin:10px 0}.mt ul{padding-left:20px;margin:8px 0}.mt li{margin:4px 0;font-size:14.5px}
+.tm{margin-top:10px;border-radius:10px;padding:10px 12px;display:flex;gap:12px;align-items:flex-start;font-size:14px;border:1px solid}
+.tm .tx{display:flex;flex-direction:column;gap:3px;min-width:0}.tm b{font-size:14.5px}
+.tm.g{border-color:var(--up);background:#0F2A22}.tm.a{border-color:#F2B84B;background:#2A230F}.tm.r{border-color:var(--dn);background:#2E1519}
+.sem{display:flex;flex-direction:column;gap:4px;background:#05080F;border-radius:8px;padding:5px;flex:none}
+.sem i{width:12px;height:12px;border-radius:50%;display:block;background:#1F2638}
+.tm.g .sem i:nth-child(1).on{background:#3DDC97;box-shadow:0 0 8px #3DDC97}.tm.a .sem i:nth-child(2).on{background:#F2B84B;box-shadow:0 0 8px #F2B84B}.tm.r .sem i:nth-child(3).on{background:#FF7A7A;box-shadow:0 0 8px #FF7A7A}
+.foot{margin:26px 0 10px;color:var(--mut);font-size:12px}
+
+.tb{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px}.tb th{font:10.5px var(--fm);letter-spacing:.08em;color:var(--mut);text-transform:uppercase;text-align:right;padding:6px 4px;font-weight:400}.tb td{white-space:nowrap;text-align:right;padding:7px 3px;border-top:1px solid var(--ln);font-family:var(--fm);font-variant-numeric:tabular-nums}.tb td:first-child,.tb th:first-child{text-align:left;font-family:var(--fb)}
+.up{color:var(--up)}.dn{color:var(--dn)}.big{font:500 30px var(--sf);margin-top:10px}
+.lr{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:7px 0;border-top:1px solid var(--ln);font-size:13.5px}.lr span:nth-child(2){flex:1}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}.dot.g{background:#3DDC97}.dot.a{background:#F2B84B}.dot.r{background:#FF7A7A}
+</style>
+</head>
+<body>
+<header><div class="w"><div class="lg"><span class="ic">◆</span>SOVEREIGN · PRIVADO</div><button class="btn g" id="out" style="display:none;padding:6px 12px">Salir</button></div></header>
+<main class="w" id="app"></main>
+<script>
+const SB="https://silpmbtvkxxzaryfybpf.supabase.co";
+const K="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpbHBtYnR2a3h4emFyeWZ5YnBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ1OTI5MzksImV4cCI6MjExMDE2ODkzOX0.5or-FBaI3YuNCHhtXfcdwKjhftG-2a33CVojSnySXp8";
+// La sesión se guarda solo en esta pestaña: al cerrarla hay que volver a entrar
+const ss={get(){try{return JSON.parse(sessionStorage.getItem("sd_priv")||"null")}catch(e){return null}},set(v){try{v?sessionStorage.setItem("sd_priv",JSON.stringify(v)):sessionStorage.removeItem("sd_priv")}catch(e){}}};
+let S=ss.get();
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const MES=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const fd=d=>{if(!d)return"—";const[y,m,dd]=String(d).slice(0,10).split("-").map(Number);return`${dd} ${MES[m-1]} ${y}`};
+const pc=x=>x==null?"—":`${x>=0?"+":""}${(100*x).toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})} %`;
+const cls=x=>x==null?"":x>=0?"up":"dn";
+const HOL=new Set(["2026-01-01","2026-01-19","2026-02-16","2026-04-03","2026-05-25","2026-06-19","2026-07-03","2026-09-07","2026-11-26","2026-12-25","2027-01-01","2027-01-18","2027-02-15","2027-03-26","2027-05-31","2027-06-18","2027-07-05","2027-09-06","2027-11-25","2027-12-24","2028-01-17","2028-02-21","2028-04-14","2028-05-29","2028-06-19","2028-07-04","2028-09-04","2028-11-23","2028-12-25"]);
+const isOpen=d=>{const w=new Date(d+"T12:00:00Z").getUTCDay();return w!==0&&w!==6&&!HOL.has(d)};
+const addD=(d,n)=>new Date(new Date(d+"T12:00:00Z").getTime()+n*864e5).toISOString().slice(0,10);
+function holdOf(o){let k=0,x=o.entry_date;while(x<o.exit_date){x=addD(x,1);if(isOpen(x))k++}return k}
+const SEM=(k,long)=>k<=(long?2:1)?["g","verde"]:k<=3?["a","ámbar"]:["r","rojo"];
+async function login(email,password){
+ const r=await fetch(SB+"/auth/v1/token?grant_type=password",{method:"POST",headers:{apikey:K,"Content-Type":"application/json"},body:JSON.stringify({email,password})});
+ const j=await r.json().catch(()=>({}));
+ if(!r.ok)throw new Error(j.error_description||j.msg||"Correo o contraseña incorrectos");
+ S={t:j.access_token,exp:Date.now()+1000*(j.expires_in||3600)};ss.set(S);
+}
+async function rpc(){
+ const r=await fetch(SB+"/rest/v1/rpc/mis_rentabilidades",{method:"POST",headers:{apikey:K,Authorization:"Bearer "+S.t,"Content-Type":"application/json"},body:"{}"});
+ if(r.status===401||r.status===403){S=null;ss.set(null);throw new Error("La sesión ha caducado: vuelve a entrar")}
+ const j=await r.json().catch(()=>null);
+ if(!r.ok)throw new Error(j&&j.message==="no autorizado"?"Este usuario no tiene acceso a la página privada":"Error "+r.status);
+ return j;
+}
+function loginView(msg){
+ document.getElementById("out").style.display="none";
+ document.getElementById("app").innerHTML=`<div class="ey">Acceso privado</div><h1>Rentabilidades</h1><p class="mut">Solo para usuarios autorizados.</p>
+ <form class="cd fg" id="lf" style="grid-template-columns:1fr;padding:16px"><label>Correo<input name="e" type="email" autocomplete="username" required></label>
+ <label>Contraseña<input name="p" type="password" autocomplete="current-password" required></label>
+ <div class="fb"><button class="btn" type="submit">Entrar</button></div></form>${msg?`<div class="err">${esc(msg)}</div>`:""}`;
+ document.getElementById("lf").onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await login(String(f.get("e")).trim(),String(f.get("p")));render()}catch(err){loginView(err.message)}};
+}
+function stats(x){x=x.filter(v=>v!=null);if(!x.length)return null;const s=[...x].sort((a,b)=>a-b);const n=s.length;
+ return{n,mean:x.reduce((a,b)=>a+b,0)/n,med:n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2,hit:x.filter(v=>v>0).length/n}}
+const HIST=`<div class="cd"><h3>Resultados de la simulación (2020–2026)</h3>
+ <p class="mut sm">Cada oportunidad de su entrada a su cierre, sin comisiones. Comparado con las mismas empresas en fechas al azar.</p>
+ <table class="tb"><tr><th></th><th>Opor&shy;tunidades</th><th>Media</th><th>Mediana</th><th>Aciertos</th></tr>
+ <tr><td>★ Máxima</td><td>117</td><td class="up">+5,54 %</td><td class="up">+3,31 %</td><td>68 %</td></tr>
+ <tr><td>Alta</td><td>302</td><td class="up">+1,64 %</td><td class="up">+1,07 %</td><td>61 %</td></tr>
+ <tr><td class="mut">Al azar</td><td></td><td></td><td class="mut">+0,2–0,5 %</td><td class="mut">51–54 %</td></tr></table></div>`;
+async function render(){
+ if(!S||!S.t||Date.now()>S.exp){S=null;ss.set(null);return loginView()}
+ const app=document.getElementById("app");document.getElementById("out").style.display="";
+ app.innerHTML=`<div class="ey">Privado · precios de EODHD</div><h1>Rentabilidades</h1><p class="mut">Comprando al cierre del día de entrada y vendiendo al cierre del día de cierre que propuso la aplicación. Sin comisiones.</p><div id="l"><p class="mut">Cargando…</p></div>`;
+ let rows;try{rows=await rpc()}catch(e){if(!S)return loginView(e.message);document.getElementById("l").innerHTML=`<div class="err">${esc(e.message)}</div>`;return}
+ const lv=document.getElementById("l");
+ const done=rows.filter(o=>o.r0!=null);
+ const sum=lvl=>{const s=stats(done.filter(o=>!lvl||o.level===lvl).map(o=>+o.r0));return s?`<tr><td>${lvl===5?"★ Máxima":lvl===4?"Alta":"Todas"}</td><td>${s.n}</td><td class="${cls(s.mean)}">${pc(s.mean)}</td><td class="${cls(s.med)}">${pc(s.med)}</td><td>${Math.round(100*s.hit)} %</td></tr>`:""};
+ let h=`<div class="cd"><h3>Tus resultados reales</h3>${done.length?`<table class="tb"><tr><th></th><th>Cerradas</th><th>Media</th><th>Mediana</th><th>Aciertos</th></tr>${sum(0)}${sum(5)}${sum(4)}</table>`:`<p class="mut">Todavía no hay oportunidades cerradas con precio. Se calculan cada noche, después del cierre de Nueva York.</p>`}</div>`;
+ h+=rows.map(o=>{
+  const long=holdOf(o)>10;
+  const late=[1,2,3].map(k=>{const v=o["r"+k],d=o["d"+k];if(v==null&&!d)return"";const[c,n]=SEM(k,long);
+   return`<div class="lr"><span class="dot ${c}"></span><span>Con ${k} ${k>1?"sesiones":"sesión"} de retraso <span class="mut sm">(entrada ${fd(d)}, ${n})</span></span><b class="${cls(v==null?null:+v)}">${pc(v==null?null:+v)}</b></div>`}).join("");
+  const body=o.r0!=null?`<div class="big ${cls(+o.r0)}">${pc(+o.r0)}</div><div class="mut sm">a tiempo · ${fd(o.entry_date)} → ${fd(o.exit_date)}</div>${late?`<details style="margin-top:8px"><summary class="mut sm" style="cursor:pointer">Si hubieras entrado con retraso</summary>${late}</details>`:""}`
+   :`<div class="mut sm" style="margin-top:6px">${o.nota?esc(o.nota):(o.exit_date>=new Date().toISOString().slice(0,10)?"Abierta: se calculará cuando cierre, el "+fd(o.exit_date):"Pendiente de cálculo (esta noche)")}</div>`;
+  return`<div class="cd"><div class="row"><div><div class="code">${esc(o.code)}</div><div class="tk">${esc(o.ticker)}</div><div class="nm">${esc(o.name||"")}</div></div><span class="cv ${o.level>=5?"c5":"c4"}">${o.level>=5?"★ Máxima":"Alta"}</span></div>${body}</div>`}).join("");
+ h+=HIST+`<p class="foot">Página privada. Los precios proceden de EODHD (uso personal). Resultados pasados; no garantizan resultados futuros.</p>`;
+ lv.innerHTML=h;
+}
+document.getElementById("out").onclick=()=>{S=null;ss.set(null);loginView()};
+render();
+</script>
+</body>
+</html>

@@ -72,6 +72,8 @@ input[type=date]{font-size:15px;-webkit-appearance:none;min-height:40px}
 .sem{display:flex;flex-direction:column;gap:4px;background:#05080F;border-radius:8px;padding:5px;flex:none}
 .sem i{width:12px;height:12px;border-radius:50%;display:block;background:#1F2638}
 .tm.g .sem i:nth-child(1).on{background:#3DDC97;box-shadow:0 0 8px #3DDC97}.tm.a .sem i:nth-child(2).on{background:#F2B84B;box-shadow:0 0 8px #F2B84B}.tm.r .sem i:nth-child(3).on{background:#FF7A7A;box-shadow:0 0 8px #FF7A7A}
+.tb{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px}.tb th{font:10.5px var(--fm);letter-spacing:.08em;color:var(--mut);text-transform:uppercase;text-align:right;padding:6px 4px;font-weight:400}.tb td{white-space:nowrap;text-align:right;padding:7px 3px;border-top:1px solid var(--ln);font-family:var(--fm);font-variant-numeric:tabular-nums}.tb td:first-child,.tb th:first-child{text-align:left;font-family:var(--fb)}
+.up{color:var(--up)}
 .foot{margin:26px 0 10px;color:var(--mut);font-size:12px}
 </style>
 </head>
@@ -235,6 +237,12 @@ function metodo(){
  <li>${es?"<b>Cuándo entrar:</b> el día de la oportunidad y un <b>semáforo</b>. Verde: buen momento. Ámbar: todavía se puede, con menos recorrido. Rojo: ya no compensa. Lo calculamos con nuestras simulaciones de entradas con retraso.":"<b>When to enter:</b> the opportunity date and a <b>traffic light</b>. Green: good time. Amber: still possible, with less upside. Red: no longer worth it. Based on our simulations of late entries."}</li>
  <li>${es?"<b>Cuándo termina:</b> la fecha de cierre prevista. Son oportunidades de pocos días o pocas semanas.":"<b>When it ends:</b> the planned closing date. These are opportunities of a few days or a few weeks."}</li>
  <li>${es?"<b>Las noticias oficiales</b> de la empresa, resumidas en español y en inglés por inteligencia artificial, con el enlace al documento original.":"<b>The company's official news</b>, summarised in Spanish and English by artificial intelligence, with a link to the original filing."}</li></ul>`)}
+ ${card(es?"Resultados históricos":"Historical results",`<p class="mut sm">${es?"Simulación 2020–2026: cada oportunidad desde su entrada hasta su cierre, sin comisiones. «Aciertos» es el porcentaje que terminó ganando. Debajo, las mismas empresas en fechas elegidas al azar.":"Simulation 2020–2026: each opportunity from entry to close, before costs. “Hit rate” is the share that ended up positive. Below, the same companies on randomly chosen dates."}</p>
+ <table class="tb"><tr><th></th><th>${es?"Oportu&shy;nidades":"Oppor&shy;tunities"}</th><th>${es?"Media":"Mean"}</th><th>${es?"Mediana":"Median"}</th><th>${es?"Aciertos":"Hit rate"}</th></tr>
+ <tr><td>★ ${t("c5s")}</td><td>117</td><td class="up">+5,54 %</td><td class="up">+3,31 %</td><td>68 %</td></tr>
+ <tr><td>${t("c4s")}</td><td>302</td><td class="up">+1,64 %</td><td class="up">+1,07 %</td><td>61 %</td></tr>
+ <tr><td class="mut">${es?"Al azar":"Random"}</td><td></td><td></td><td class="mut">+0,2–0,5 %</td><td class="mut">51–54 %</td></tr></table>
+ <p class="mut sm">${es?"Resultados simulados del pasado: no garantizan resultados futuros.":"Simulated past results: they do not guarantee future results."}</p>`)}
  ${card(es?"Transparente y sin retoques":"Transparent and unedited",`<p>${es?"Cada oportunidad recibe un código y una fecha en el momento de publicarse, y no se puede modificar ni borrar después. Los resultados de las simulaciones son históricos: no garantizan resultados futuros. Las cerradas siguen visibles en su pestaña: lo que ves es exactamente lo que se publicó.":"Each opportunity gets a code and a date when it is published, and cannot be changed or deleted afterwards. Simulation results are historical: they do not guarantee future results. Closed ones remain visible in their tab: what you see is exactly what was published."}</p>`)}
  ${card(es?"Importante":"Important",`<p>${es?"Esto es información, no una recomendación de inversión personalizada. Invertir en bolsa tiene riesgo y puedes perder dinero: decide siempre según tu situación y, si lo necesitas, consulta a un profesional.":"This is information, not personalised investment advice. Investing in stocks carries risk and you can lose money: always decide based on your own situation and, if needed, consult a professional."}</p>`)}
  <p class="foot">${t("legal")}</p></div>`;
