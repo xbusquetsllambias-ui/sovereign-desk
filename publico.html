@@ -74,12 +74,17 @@ input[type=date]{font-size:15px;-webkit-appearance:none;min-height:40px}
 .tm.g .sem i:nth-child(1).on{background:#3DDC97;box-shadow:0 0 8px #3DDC97}.tm.a .sem i:nth-child(2).on{background:#F2B84B;box-shadow:0 0 8px #F2B84B}.tm.r .sem i:nth-child(3).on{background:#FF7A7A;box-shadow:0 0 8px #FF7A7A}
 .tb{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px}.tb th{font:10.5px var(--fm);letter-spacing:.08em;color:var(--mut);text-transform:uppercase;text-align:right;padding:6px 4px;font-weight:400}.tb td{white-space:nowrap;text-align:right;padding:7px 3px;border-top:1px solid var(--ln);font-family:var(--fm);font-variant-numeric:tabular-nums}.tb td:first-child,.tb th:first-child{text-align:left;font-family:var(--fb)}
 .up{color:var(--up)}
+.accb{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--ln);border-radius:99px;color:var(--mut);font:12px var(--fm);padding:4px 10px;cursor:pointer}.accb.on{border-color:var(--gd);color:var(--gd)}
+.big{font:500 30px var(--sf);margin-top:10px}.dn{color:var(--dn)}
+.lr{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:7px 0;border-top:1px solid var(--ln);font-size:13.5px}.lr span:nth-child(2){flex:1}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}.dot.g{background:#3DDC97}.dot.a{background:#F2B84B}.dot.r{background:#FF7A7A}
+.myr{margin-top:10px;border-top:1px solid var(--ln);padding-top:10px;display:flex;justify-content:space-between;align-items:baseline}
 .foot{margin:26px 0 10px;color:var(--mut);font-size:12px}
 </style>
 </head>
 <body>
 <header><div class="w"><div class="lg"><span class="ic">◆</span>SOVEREIGN</div>
-<div class="lang"><button data-l="es">ES</button><button data-l="en">EN</button></div></div></header>
+<div style="display:flex;gap:8px;align-items:center"><button id="acc" class="accb" aria-label="Acceso"></button><div class="lang"><button data-l="es">ES</button><button data-l="en">EN</button></div></div></div></header>
 <main class="w" id="app"></main>
 <nav class="bar"><div class="w" id="tabs"></div></nav>
 <script>
@@ -105,7 +110,17 @@ const T={
  noneN:["No hay noticias con estos filtros.","No news match these filters."],
  sum:["Resumen","Summary"],sumPend:["Resumen pendiente (se genera en unos minutos).","Summary pending (generated within minutes)."],
  doc:["Documento oficial en la SEC","Official filing at the SEC"],res:["resultados","results"],load:["Cargando…","Loading…"],
- opp:["Oportunidad","Opportunity"],
+ opp:["Oportunidad","Opportunity"],rentab:["Rentab.","Returns"],access:["Acceso","Sign in"],logout:["Salir","Sign out"],
+ badLogin:["Correo o contraseña incorrectos","Wrong email or password"],expired:["La sesión ha caducado: vuelve a entrar","Session expired: sign in again"],noAccess:["Este usuario no tiene acceso","This user has no access"],
+ accT:["Acceso privado","Private access"],accD:["Solo para usuarios autorizados. Al entrar verás la rentabilidad real de cada oportunidad.","Authorised users only. Once signed in you will see the actual return of each opportunity."],
+ email:["Correo","Email"],pass:["Contraseña","Password"],enter:["Entrar","Sign in"],
+ rT:["Rentabilidad real","Actual returns"],rD:["Comprando al cierre del día de entrada y vendiendo al cierre del día de cierre propuestos. Precios de EODHD, sin comisiones.","Buying at the close of the proposed entry day and selling at the close of the proposed closing day. EODHD prices, before costs."],
+ yours:["Tus resultados reales","Your actual results"],closedN:["Cerradas","Closed"],allL:["Todas","All"],
+ noneR:["Todavía no hay oportunidades cerradas con precio. Se calculan cada noche, después del cierre de Nueva York.","No closed opportunities with prices yet. They are calculated every night, after the New York close."],
+ onTimeR:["a tiempo","on time"],lateIf:["Si hubieras entrado con retraso","If you had entered late"],withL:["Con","With"],sess1:["sesión de retraso","session late"],sessN:["sesiones de retraso","sessions late"],
+ openR:["Abierta: se calculará cuando cierre, el","Open: it will be calculated when it closes on"],pendR:["Pendiente de cálculo (esta noche)","Pending calculation (tonight)"],yourRet:["Tu rentabilidad","Your return"],
+ green:["verde","green"],amber:["ámbar","amber"],red:["rojo","red"],
+ privFoot:["Solo visible con tu usuario. Precios de EODHD (uso personal). Resultados pasados; no garantizan resultados futuros.","Visible only when signed in. EODHD prices (personal use). Past results; no guarantee of future results."],
  semG0:["Momento ideal para entrar","Ideal time to enter"],semG:["Todavía es buen momento para entrar","Still a good time to enter"],
  semA:["Se puede entrar, con menos recorrido","You can still enter, with less upside left"],semR:["Ya no compensa entrar","No longer worth entering"],
  untilG:["Buen momento hasta el cierre del ","Good time until the close of "],untilA:[". Posible, con menos recorrido, hasta el cierre del ","; possible, with less upside, until the close of "],
@@ -140,11 +155,36 @@ const IC={abiertas:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" 
 cerradas:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',
 noticias:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',
 metodo:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8v.5"/></svg>'};
-const TABS=["abiertas","cerradas","noticias","metodo"];
+IC.rentab='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+// ── Acceso con usuario (solo tú y tu padre): la sesión vive solo en esta pestaña ──
+const AU="https://silpmbtvkxxzaryfybpf.supabase.co";
+const ss={get(){try{return JSON.parse(sessionStorage.getItem("sd_priv")||"null")}catch(e){return null}},set(v){try{v?sessionStorage.setItem("sd_priv",JSON.stringify(v)):sessionStorage.removeItem("sd_priv")}catch(e){}}};
+let S=ss.get(); if(S&&Date.now()>S.exp){S=null;ss.set(null)}
+let RET=null;   // rentabilidades por código (solo con sesión)
+async function login(email,password){
+ const r=await fetch(AU+"/auth/v1/token?grant_type=password",{method:"POST",headers:{apikey:K,"Content-Type":"application/json"},body:JSON.stringify({email,password})});
+ const j=await r.json().catch(()=>({}));
+ if(!r.ok)throw new Error(t("badLogin"));
+ S={t:j.access_token,exp:Date.now()+1000*(j.expires_in||3600)};ss.set(S);RET=null;
+}
+function logout(){S=null;ss.set(null);RET=null;go("abiertas",{})}
+async function loadRet(){
+ if(!S)return null; if(RET)return RET;
+ const r=await fetch(AU+"/rest/v1/rpc/mis_rentabilidades",{method:"POST",headers:{apikey:K,Authorization:"Bearer "+S.t,"Content-Type":"application/json"},body:"{}"});
+ if(r.status===401||r.status===403){S=null;ss.set(null);throw new Error(t("expired"))}
+ const j=await r.json().catch(()=>null);
+ if(!r.ok)throw new Error(j&&j.message==="no autorizado"?t("noAccess"):"Error "+r.status);
+ RET={};j.forEach(o=>RET[o.code]=o);return RET;
+}
+const TABS0=["abiertas","cerradas","noticias","metodo"];
+let TABS=TABS0;
+function setTabs(){TABS=S?["abiertas","cerradas","noticias","rentab","metodo"]:TABS0}
+setTabs();
 // Estado: pestaña y filtros en la dirección (#abiertas?code=2611-1), para poder compartir un enlace filtrado
-function parseHash(){const h=location.hash.slice(1);const[tab,qs]=h.split("?");const p=new URLSearchParams(qs||"");return{tab:TABS.includes(tab)?tab:"abiertas",f:Object.fromEntries(p)}}
+function parseHash(){const h=location.hash.slice(1);const[tab,qs]=h.split("?");const p=new URLSearchParams(qs||"");return{tab:(TABS.includes(tab)||tab==="acceso")?tab:"abiertas",f:Object.fromEntries(p)}}
 function go(tab,f){const qs=new URLSearchParams(Object.entries(f||{}).filter(([k,v])=>v)).toString();location.hash=tab+(qs?"?"+qs:"")}
-function drawTabs(cur){document.getElementById("tabs").innerHTML=TABS.map(k=>`<button class="${k===cur?"on":""}" data-t="${k}">${IC[k]}${t(k)}</button>`).join("");
+function drawTabs(cur){setTabs();const ab=document.getElementById("acc");ab.className="accb"+(S?" on":"");ab.innerHTML=(S?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg>':'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>')+t(S?"logout":"access");ab.onclick=()=>S?logout():go("acceso",{});
+ document.getElementById("tabs").innerHTML=TABS.map(k=>`<button class="${k===cur?"on":""}" data-t="${k}">${IC[k]}${t(k)}</button>`).join("");
  document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>go(b.dataset.t,{}));
  document.querySelectorAll(".lang button").forEach(b=>{b.classList.toggle("on",b.dataset.l===L);b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("sd_lang",L)}catch(e){}document.documentElement.lang=L;render()}})}
 const lvl=n=>`<span class="cv ${n>=5?"c5":"c4"}">${n>=5?"★ ":""}${t(n>=5?"c5":"c4")}</span>`;
@@ -188,7 +228,36 @@ function oppCard(o){
  <div style="text-align:right">${lvl(o.level)}<div style="margin-top:6px"><span class="badge ${cl?"c":"o"}">${t(cl?"closed":"open")}</span></div>${nyd(o.published_at)>o.entry_date?`<div style="margin-top:6px"><span class="badge r">${t("lateP")}</span></div>`:""}</div></div>
 ${cl?"":timing(o)}
  <div class="dates"><div><div class="k">${t("pub")}</div><div class="v">${fd(nyd(o.published_at))}</div></div><div><div class="k">${t("entry")}</div><div class="v">${fd(o.entry_date)}</div></div><div><div class="k">${t(cl?"exitR":"exitP")}</div><div class="v">${fd(o.exit_date)}</div></div></div>
+ ${cl&&RET&&RET[o.code]&&RET[o.code].r0!=null?`<div class="myr"><span class="k">${t("yourRet")}</span><b class="m ${+RET[o.code].r0>=0?"up":"dn"}" style="font-size:18px">${pcR(+RET[o.code].r0)}</b></div>`:""}
  <div style="margin-top:12px"><button class="lnk" data-news="${esc(o.code)}">${t("seeNews")} (${o.n_news||0})</button></div></div>`;
+}
+const pcR=x=>x==null?"—":`${x>=0?"+":""}${(100*x).toLocaleString(L==="es"?"es-ES":"en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} %`;
+function statsR(x){x=x.filter(v=>v!=null);if(!x.length)return null;const s=[...x].sort((a,b)=>a-b);const n=s.length;return{n,mean:x.reduce((a,b)=>a+b,0)/n,med:n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2,hit:x.filter(v=>v>0).length/n}}
+function accesoView(msg){
+ const app=document.getElementById("app");
+ app.innerHTML=`<div class="ey">${t("accT")}</div><h1>${t("access")}</h1><p class="mut">${t("accD")}</p>
+ <form class="cd fg" id="lf" style="grid-template-columns:1fr;padding:16px"><label>${t("email")}<input name="e" type="email" autocomplete="username" required></label>
+ <label>${t("pass")}<input name="p" type="password" autocomplete="current-password" required></label>
+ <div class="fb"><button class="btn" type="submit">${t("enter")}</button></div></form>${msg?`<div class="err">${esc(msg)}</div>`:""}`;
+ document.getElementById("lf").onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await login(String(f.get("e")).trim(),String(f.get("p")));try{await loadRet()}catch(err){S=null;ss.set(null);return accesoView(err.message)}go("rentab",{})}catch(err){accesoView(err.message)}};
+}
+async function rentabView(){
+ const app=document.getElementById("app");
+ app.innerHTML=`<div class="ey">${t("accT")}</div><h1>${t("rT")}</h1><p class="mut">${t("rD")}</p><div id="l"><p class="mut">${t("load")}</p></div>`;
+ let R;try{R=await loadRet()}catch(e){if(!S){drawTabs("acceso");return accesoView(e.message)}document.getElementById("l").innerHTML=`<div class="err">${esc(e.message)}</div>`;return}
+ const rows=Object.values(R).sort((a,b)=>String(b.exit_date).localeCompare(String(a.exit_date)));
+ const done=rows.filter(o=>o.r0!=null);
+ const sum=lv=>{const s=statsR(done.filter(o=>!lv||o.level===lv).map(o=>+o.r0));return s?`<tr><td>${lv===5?"★ "+t("c5s"):lv===4?t("c4s"):t("allL")}</td><td>${s.n}</td><td class="${s.mean>=0?"up":"dn"}">${pcR(s.mean)}</td><td class="${s.med>=0?"up":"dn"}">${pcR(s.med)}</td><td>${Math.round(100*s.hit)} %</td></tr>`:""};
+ let h=`<div class="cd"><h3>${t("yours")}</h3>${done.length?`<table class="tb"><tr><th></th><th>${t("closedN")}</th><th>${L==="es"?"Media":"Mean"}</th><th>${L==="es"?"Mediana":"Median"}</th><th>${L==="es"?"Aciertos":"Hit rate"}</th></tr>${sum(0)}${sum(5)}${sum(4)}</table>`:`<p class="mut">${t("noneR")}</p>`}</div>`;
+ const today=new Date().toISOString().slice(0,10);
+ h+=rows.map(o=>{
+  const long=holdOf(o)>10,G=long?2:1;
+  const late=[1,2,3].map(k=>{const v=o["r"+k],d=o["d"+k];if(v==null&&!d)return"";const c=k<=G?"g":k<=3?"a":"r";
+   return`<div class="lr"><span class="dot ${c}"></span><span>${t("withL")} ${k} ${t(k>1?"sessN":"sess1")} <span class="mut sm">(${fd(d)}, ${t(c==="g"?"green":c==="a"?"amber":"red")})</span></span><b class="m ${v==null?"":+v>=0?"up":"dn"}">${pcR(v==null?null:+v)}</b></div>`}).join("");
+  const body=o.r0!=null?`<div class="big ${+o.r0>=0?"up":"dn"}">${pcR(+o.r0)}</div><div class="mut sm">${t("onTimeR")} · ${fd(o.entry_date)} → ${fd(o.exit_date)}</div>${late?`<details style="margin-top:8px"><summary class="mut sm" style="cursor:pointer">${t("lateIf")}</summary>${late}</details>`:""}`
+   :`<div class="mut sm" style="margin-top:6px">${o.nota?esc(o.nota):(o.exit_date>=today?t("openR")+" "+fd(o.exit_date):t("pendR"))}</div>`;
+  return`<div class="cd"><div class="row"><div><div class="code">${esc(o.code)}</div><div class="tk">${esc(o.ticker)}</div><div class="nm">${esc(o.name||"")}</div></div>${lvl(o.level)}</div>${body}</div>`}).join("");
+ document.getElementById("l").innerHTML=h+`<p class="foot">${t("privFoot")}</p>`;
 }
 function newsCard(n){
  const s=L==="es"?n.summary_es:n.summary_en;
@@ -201,6 +270,9 @@ const enc=encodeURIComponent;
 async function render(){
  const{tab,f}=parseHash();drawTabs(tab);const app=document.getElementById("app");
  if(tab==="metodo"){app.innerHTML=metodo();return}
+ if(tab==="acceso"){if(S)return go("rentab",{});return accesoView()}
+ if(tab==="rentab"){if(!S)return go("acceso",{});return rentabView()}
+ if(S&&tab==="cerradas"){try{await loadRet()}catch(e){}}
  const ttl={abiertas:["tA","dA"],cerradas:["tB","dB"],noticias:["tC","dC"]}[tab];
  app.innerHTML=`<div class="ey">${t("eyA")}</div><h1>${t(ttl[0])}</h1><p class="mut">${t(ttl[1])}</p>${filterForm(tab,f)}<div id="list"><p class="mut">${t("load")}</p></div><p class="foot">${t("legal")}</p>`;
  bindForm(tab);const list=document.getElementById("list");
