@@ -35,7 +35,8 @@ h1,h2,h3{font-family:var(--sf);font-weight:500;margin:0}h1{font-size:30px;line-h
 .code{font:500 13px var(--fm);color:var(--gd);letter-spacing:.06em}
 .tk{font:600 20px var(--fb);letter-spacing:.02em}
 .nm{color:var(--mut);font-size:13.5px;overflow-wrap:anywhere}
-.lvl{display:flex;gap:3px;align-items:center}.lvl i{width:9px;height:9px;border-radius:50%;background:#26325C;display:block}.lvl i.f{background:var(--gd)}
+.cv{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:3px 10px;font:500 12px var(--fb);white-space:nowrap}.cv.c5{background:var(--gd);color:#14110A}.cv.c4{border:1px solid var(--gd);color:var(--gd)}
+.badge.r{border-color:var(--gd);color:var(--gd)}
 .badge{display:inline-block;border:1px solid var(--ln);border-radius:99px;padding:1px 9px;font:11.5px var(--fm);color:var(--mut);white-space:nowrap}
 .badge.o{border-color:var(--up);color:var(--up)}.badge.c{border-color:var(--mut)}
 .dates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px;border-top:1px solid var(--ln);padding-top:10px}
@@ -65,7 +66,12 @@ input[type=date]{font-size:15px;-webkit-appearance:none;min-height:40px}
 .bar button.on{color:var(--ac);border-top-color:var(--ac)}
 .bar svg{display:block;margin:0 auto 3px}
 .mt p{margin:10px 0}.mt ul{padding-left:20px;margin:8px 0}.mt li{margin:4px 0;font-size:14.5px}
-.tm{margin-top:10px;border-radius:8px;padding:9px 12px;display:flex;flex-direction:column;gap:2px;font-size:14px;border:1px solid}.tm.on{border-color:var(--up);background:#0F2A22}.tm.late{border-color:var(--gd);background:#2A230F}
+.tm{margin-top:10px;border-radius:10px;padding:10px 12px;display:flex;gap:12px;align-items:flex-start;font-size:14px;border:1px solid}
+.tm .tx{display:flex;flex-direction:column;gap:3px;min-width:0}.tm b{font-size:14.5px}
+.tm.g{border-color:var(--up);background:#0F2A22}.tm.a{border-color:#F2B84B;background:#2A230F}.tm.r{border-color:var(--dn);background:#2E1519}
+.sem{display:flex;flex-direction:column;gap:4px;background:#05080F;border-radius:8px;padding:5px;flex:none}
+.sem i{width:12px;height:12px;border-radius:50%;display:block;background:#1F2638}
+.tm.g .sem i:nth-child(1).on{background:#3DDC97;box-shadow:0 0 8px #3DDC97}.tm.a .sem i:nth-child(2).on{background:#F2B84B;box-shadow:0 0 8px #F2B84B}.tm.r .sem i:nth-child(3).on{background:#FF7A7A;box-shadow:0 0 8px #FF7A7A}
 .foot{margin:26px 0 10px;color:var(--mut);font-size:12px}
 </style>
 </head>
@@ -83,10 +89,10 @@ const T={
  abiertas:["Abiertas","Open"],cerradas:["Cerradas","Closed"],noticias:["Noticias","News"],metodo:["Método","Method"],
  tA:["Oportunidades abiertas","Open opportunities"],tB:["Oportunidades cerradas","Closed opportunities"],tC:["Noticias de las oportunidades","Opportunity news"],tM:["Cómo funciona","How it works"],
  eyA:["Datos oficiales · SEC y Reserva Federal","Official data · SEC and Federal Reserve"],
- dA:["Oportunidades con la puntuación más alta, publicadas antes de su día de entrada. Cada una se cierra sola en su fecha de cierre.","Top-scoring opportunities, published before their entry day. Each one closes automatically on its closing date."],
+ dA:["Oportunidades de convicción alta y máxima, publicadas normalmente antes de su día de entrada. Cada una se cierra sola en su fecha de cierre.","High and highest-conviction opportunities, normally published before their entry day. Each one closes automatically on its closing date."],
  dB:["Registro inmutable de las oportunidades ya cerradas.","Permanent record of opportunities that have closed."],
  dC:["Documentos oficiales de la SEC de cada oportunidad, con un resumen hecho por Claude Haiku.","Official SEC filings for each opportunity, with a summary written by Claude Haiku."],
- flt:["Filtros","Filters"],code:["Código","Code"],level:["Nivel","Level"],all:["Todos","All"],ticker:["Empresa (ticker)","Company (ticker)"],
+ flt:["Filtros","Filters"],code:["Código","Code"],level:["Convicción","Conviction"],all:["Todas","All"],c5:["Convicción máxima","Highest conviction"],c4:["Convicción alta","High conviction"],c5s:["Máxima","Highest"],c4s:["Alta","High"],lateP:["publicada con retraso","published late"],ticker:["Empresa (ticker)","Company (ticker)"],
  pubFrom:["Publicada desde","Published from"],pubTo:["Publicada hasta","Published to"],cloFrom:["Cerrada desde","Closed from"],cloTo:["Cerrada hasta","Closed to"],
  dFrom:["Fecha desde","Date from"],dTo:["Fecha hasta","Date to"],q:["Buscar en el resumen","Search summaries"],qph:["p. ej. incremento de ingresos","e.g. revenue increase"],
  apply:["Aplicar","Apply"],clear:["Borrar","Clear"],
@@ -97,7 +103,12 @@ const T={
  noneN:["No hay noticias con estos filtros.","No news match these filters."],
  sum:["Resumen","Summary"],sumPend:["Resumen pendiente (se genera en unos minutos).","Summary pending (generated within minutes)."],
  doc:["Documento oficial en la SEC","Official filing at the SEC"],res:["resultados","results"],load:["Cargando…","Loading…"],
- opp:["Oportunidad","Opportunity"],oppOf:["Oportunidad del","Opportunity of"],
+ opp:["Oportunidad","Opportunity"],
+ semG0:["Momento ideal para entrar","Ideal time to enter"],semG:["Todavía es buen momento para entrar","Still a good time to enter"],
+ semA:["Se puede entrar, con menos recorrido","You can still enter, with less upside left"],semR:["Ya no compensa entrar","No longer worth entering"],
+ untilG:["Buen momento hasta el cierre del ","Good time until the close of "],untilA:[". Posible, con menos recorrido, hasta el cierre del ","; possible, with less upside, until the close of "],
+ untilA2:["Último día para entrar: cierre del ","Last day to enter: close of "],
+ semRtxt:["Según nuestras simulaciones, con este retraso la ventaja de la oportunidad ya se ha agotado. Espera a la próxima.","According to our simulations, with this delay the opportunity's edge is gone. Wait for the next one."],oppOf:["Oportunidad del","Opportunity of"],
  onTime:["A tiempo: la entrada es al cierre de hoy","On time: entry is at today's close"],
  onTimeF:["A tiempo: la entrada es al cierre del","On time: entry is at the close of"],
  late1:["sesión de retraso desde la entrada","session late since entry"],lateN:["sesiones de retraso desde la entrada","sessions late since entry"],
@@ -134,13 +145,13 @@ function go(tab,f){const qs=new URLSearchParams(Object.entries(f||{}).filter(([k
 function drawTabs(cur){document.getElementById("tabs").innerHTML=TABS.map(k=>`<button class="${k===cur?"on":""}" data-t="${k}">${IC[k]}${t(k)}</button>`).join("");
  document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>go(b.dataset.t,{}));
  document.querySelectorAll(".lang button").forEach(b=>{b.classList.toggle("on",b.dataset.l===L);b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("sd_lang",L)}catch(e){}document.documentElement.lang=L;render()}})}
-const lvl=n=>`<span class="lvl" title="${t("level")} ${n}">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"f":""}"></i>`).join("")}<span class="m sm" style="margin-left:6px">${n}/5</span></span>`;
+const lvl=n=>`<span class="cv ${n>=5?"c5":"c4"}">${n>=5?"★ ":""}${t(n>=5?"c5":"c4")}</span>`;
 function filterForm(tab,f){
  const inp=(n,lab,type="text",ph="")=>`<label>${t(lab)}<input name="${n}" type="${type}" value="${esc(f[n]||"")}" placeholder="${esc(ph)}" ${type==="text"?'autocapitalize="characters" autocomplete="off"':""}></label>`;
  let h="";
  if(tab!=="noticias"){
   h+=inp("code","code","text","2611-1")+inp("ticker","ticker","text","AAPL");
-  h+=`<label class="full">${t("level")}<select name="level"><option value="">${t("all")}</option>${[5,4].map(n=>`<option ${String(f.level)===String(n)?"selected":""}>${n}</option>`).join("")}</select></label>`;
+  h+=`<label class="full">${t("level")}<select name="level"><option value="">${t("all")}</option>${[5,4].map(n=>`<option value="${n}" ${String(f.level)===String(n)?"selected":""}>${t(n===5?"c5s":"c4s")}</option>`).join("")}</select></label>`;
   h+=inp("pf","pubFrom","date")+inp("pt","pubTo","date");
   if(tab==="cerradas")h+=inp("cf","cloFrom","date")+inp("ct","cloTo","date");
  }else{
@@ -151,17 +162,28 @@ function filterForm(tab,f){
  return `<details class="flt" ${n?"open":""}><summary><span>${t("flt")}${n?` · ${n}`:""}</span><span>▾</span></summary><form class="fg" id="ff">${h}<div class="fb"><button class="btn" type="submit">${t("apply")}</button><button class="btn g" type="button" id="fc">${t("clear")}</button></div></form></details>`;
 }
 function bindForm(tab){const F=document.getElementById("ff");F.onsubmit=e=>{e.preventDefault();const f={};new FormData(F).forEach((v,k)=>{v=String(v).trim();if(v)f[k]=k==="code"||k==="ticker"?v.toUpperCase():v});go(tab,f)};document.getElementById("fc").onclick=()=>go(tab,{})}
+// Semáforo de entrada con retraso (simulación 2020-2026, cierre en la fecha prevista, comparado con fechas al azar):
+// plazo corto: verde hasta 1 sesión de retraso, ámbar hasta 3; plazo largo: verde hasta 2, ámbar hasta 3.
+function addSessions(d,k){let x=d;for(let i=0;i<k;i++){x=addD(x,1);while(!isOpen(x))x=addD(x,1)}return x}
+function holdOf(o){let k=0,x=o.entry_date;while(x<o.exit_date){x=addD(x,1);if(isOpen(x))k++}return k}
 function timing(o){
  const late=sessionsLate(o.entry_date),left=sessionsLeft(o.exit_date),n=nyNow();
- let msg,cls;
- if(late===0){cls="on";msg=o.entry_date===n.d?t("onTime"):`${t("onTimeF")} ${fd(o.entry_date)}`}
- else{cls="late";msg=`${late} ${t(late===1?"late1":"lateN")} (${t("entryClose")} ${fd(o.entry_date)})`}
+ const longH=holdOf(o)>10, G=longH?2:1, A=3;
+ const sem=late<=G?"g":late<=A?"a":"r";
+ let msg;
+ if(late===0)msg=o.entry_date===n.d?t("onTime"):`${t("onTimeF")} ${fd(o.entry_date)}`;
+ else msg=`${late} ${t(late===1?"late1":"lateN")} (${t("entryClose")} ${fd(o.entry_date)})`;
+ const head={g:t(late===0?"semG0":"semG"),a:t("semA"),r:t("semR")}[sem];
+ let until="";
+ if(sem==="g")until=`${t("untilG")} <b>${fd(addSessions(o.entry_date,G))}</b>${t("untilA")} <b>${fd(addSessions(o.entry_date,A))}</b>.`;
+ else if(sem==="a")until=`${t("untilA2")} <b>${fd(addSessions(o.entry_date,A))}</b>.`;
+ else until=t("semRtxt");
  const lf=left===1?t("left1"):`${L==="es"?"quedan ":""}${left} ${t("leftN")}`;
- return `<div class="tm ${cls}"><b>${t("oppOf")} ${fd(o.entry_date)}</b><span>${msg}</span><span class="mut sm">${lf}</span></div>`}
+ return `<div class="tm ${sem}"><div class="sem"><i class="${sem==="g"?"on":""}"></i><i class="${sem==="a"?"on":""}"></i><i class="${sem==="r"?"on":""}"></i></div><div class="tx"><b>${head}</b><span>${t("oppOf")} ${fd(o.entry_date)} · ${msg}</span><span class="sm">${until}</span><span class="mut sm">${lf}</span></div></div>`}
 function oppCard(o){
  const cl=o.estado==="cerrada";
  return `<div class="cd" id="o-${esc(o.code)}"><div class="row"><div><div class="code">${esc(o.code)}</div><div class="tk">${esc(o.ticker)}</div><div class="nm">${esc(o.name||"")}</div></div>
- <div style="text-align:right">${lvl(o.level)}<div style="margin-top:6px"><span class="badge ${cl?"c":"o"}">${t(cl?"closed":"open")}</span></div></div></div>
+ <div style="text-align:right">${lvl(o.level)}<div style="margin-top:6px"><span class="badge ${cl?"c":"o"}">${t(cl?"closed":"open")}</span></div>${nyd(o.published_at)>o.entry_date?`<div style="margin-top:6px"><span class="badge r">${t("lateP")}</span></div>`:""}</div></div>
 ${cl?"":timing(o)}
  <div class="dates"><div><div class="k">${t("pub")}</div><div class="v">${fd(nyd(o.published_at))}</div></div><div><div class="k">${t("entry")}</div><div class="v">${fd(o.entry_date)}</div></div><div><div class="k">${t(cl?"exitR":"exitP")}</div><div class="v">${fd(o.exit_date)}</div></div></div>
  <div style="margin-top:12px"><button class="lnk" data-news="${esc(o.code)}">${t("seeNews")} (${o.n_news||0})</button></div></div>`;
@@ -207,13 +229,13 @@ function metodo(){
  return `<div class="ey">${t("eyA")}</div><h1>${es?"Cómo funciona":"How it works"}</h1><div class="mt">
  <p class="mut">${es?"Oportunidades de inversión en bolsa de Estados Unidos, detectadas a partir de información pública y oficial, explicadas de forma sencilla.":"US stock market opportunities, detected from public, official information and explained in plain language."}</p>
  ${card(es?"Datos oficiales, no rumores":"Official data, not rumours",`<p>${es?"Cada día leemos de forma automática la información que las empresas cotizadas están obligadas a comunicar a la <b>SEC</b>, el supervisor de la bolsa de Estados Unidos, junto con datos de mercado publicados por la <b>Reserva Federal</b> (FRED). Son fuentes públicas y verificables: cada oportunidad enlaza al documento original.":"Every day we automatically read the information that listed companies are required to file with the <b>SEC</b>, the US stock market regulator, together with market data published by the <b>Federal Reserve</b> (FRED). These are public, verifiable sources: every opportunity links to the original filing."}</p>`)}
- ${card(es?"Un sistema que filtra el ruido":"A system that filters out the noise",`<p>${es?"Cada día se publican miles de documentos. Nuestro sistema, construido y probado con años de datos históricos, los analiza y descarta la gran mayoría. Solo muestra los pocos casos que reúnen las señales que buscamos, puntuados del 1 al 5. Aquí solo ves los de puntuación más alta.":"Thousands of filings are published every day. Our system, built and tested on years of historical data, analyses them and discards the vast majority. It only shows the few cases that bring together the signals we look for, scored from 1 to 5. Here you only see the highest scores."}</p>`)}
+ ${card(es?"Un sistema que filtra el ruido":"A system that filters out the noise",`<p>${es?"Cada día se publican miles de documentos. Nuestro sistema, construido y probado con años de datos históricos, los analiza y descarta la gran mayoría. Solo se queda con los pocos casos que reúnen las señales que buscamos y los clasifica en <b>cinco niveles</b>. Aquí solo ves los dos más altos, <b>convicción alta</b> y <b>convicción máxima</b>: los únicos que en nuestras simulaciones con años de datos históricos han mostrado ventaja, sometidos a pruebas estrictas para distinguir un buen resultado de la pura suerte.":"Thousands of filings are published every day. Our system, built and tested on years of historical data, analyses them and discards the vast majority. It keeps only the few cases that bring together the signals we look for and ranks them on <b>five levels</b>. Here you only see the top two, <b>high</b> and <b>highest conviction</b>: the only ones that showed an edge in our simulations over years of historical data, put through strict tests to tell a real result from pure luck."}</p>`)}
  ${card(es?"Qué ves en cada oportunidad":"What each opportunity shows",`<ul>
- <li>${es?"<b>La empresa</b> y su puntuación.":"<b>The company</b> and its score."}</li>
- <li>${es?"<b>Cuándo entrar:</b> el día de la oportunidad y, si ya ha pasado, cuántas sesiones de bolsa llevas de retraso.":"<b>When to enter:</b> the opportunity date and, if it has passed, how many trading sessions late you are."}</li>
+ <li>${es?"<b>La empresa</b> y su nivel de convicción.":"<b>The company</b> and its conviction level."}</li>
+ <li>${es?"<b>Cuándo entrar:</b> el día de la oportunidad y un <b>semáforo</b>. Verde: buen momento. Ámbar: todavía se puede, con menos recorrido. Rojo: ya no compensa. Lo calculamos con nuestras simulaciones de entradas con retraso.":"<b>When to enter:</b> the opportunity date and a <b>traffic light</b>. Green: good time. Amber: still possible, with less upside. Red: no longer worth it. Based on our simulations of late entries."}</li>
  <li>${es?"<b>Cuándo termina:</b> la fecha de cierre prevista. Son oportunidades de pocos días o pocas semanas.":"<b>When it ends:</b> the planned closing date. These are opportunities of a few days or a few weeks."}</li>
  <li>${es?"<b>Las noticias oficiales</b> de la empresa, resumidas en español y en inglés por inteligencia artificial, con el enlace al documento original.":"<b>The company's official news</b>, summarised in Spanish and English by artificial intelligence, with a link to the original filing."}</li></ul>`)}
- ${card(es?"Transparente y sin retoques":"Transparent and unedited",`<p>${es?"Cada oportunidad recibe un código y una fecha en el momento de publicarse, y no se puede modificar ni borrar después. Las cerradas siguen visibles en su pestaña: lo que ves es exactamente lo que se publicó.":"Each opportunity gets a code and a date when it is published, and cannot be changed or deleted afterwards. Closed ones remain visible in their tab: what you see is exactly what was published."}</p>`)}
+ ${card(es?"Transparente y sin retoques":"Transparent and unedited",`<p>${es?"Cada oportunidad recibe un código y una fecha en el momento de publicarse, y no se puede modificar ni borrar después. Los resultados de las simulaciones son históricos: no garantizan resultados futuros. Las cerradas siguen visibles en su pestaña: lo que ves es exactamente lo que se publicó.":"Each opportunity gets a code and a date when it is published, and cannot be changed or deleted afterwards. Simulation results are historical: they do not guarantee future results. Closed ones remain visible in their tab: what you see is exactly what was published."}</p>`)}
  ${card(es?"Importante":"Important",`<p>${es?"Esto es información, no una recomendación de inversión personalizada. Invertir en bolsa tiene riesgo y puedes perder dinero: decide siempre según tu situación y, si lo necesitas, consulta a un profesional.":"This is information, not personalised investment advice. Investing in stocks carries risk and you can lose money: always decide based on your own situation and, if needed, consult a professional."}</p>`)}
  <p class="foot">${t("legal")}</p></div>`;
 }
